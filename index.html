@@ -165,11 +165,21 @@
           return;
         }
 
-        var LMSProxyFuncs = pick(
-          LMSProxySelections,
-          window.parent,
-          Function.prototype
-        );
+        var LMSProxyFuncs;
+try {
+  LMSProxyFuncs = pick(
+    LMSProxySelections,
+    window.parent,
+    Function.prototype
+  );
+} catch (e) {
+  // Cross-origin access blocked, use empty functions
+  LMSProxyFuncs = pick(
+    LMSProxySelections,
+    {},
+    Function.prototype
+  );
+}
 
         function noAPIFunction(funcName) {
           return function () {
